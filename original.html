@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Happy Birthday Rani <3</title>
+<link rel="icon" type="image/x-icon" href="rani.png">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+    body {
+        margin: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-color: pink;
+        overflow: hidden; /* Prevents scrolling outside the viewport */
+        position: relative; /* Ensure absolute positioning works relative to body */
+    }
+    #video-container {
+        position: relative; /* Ensure video container is positioned relative */
+        z-index: 1; /* Ensure video player is above hearts */
+    }
+    video {
+        max-width: 100%;
+        height: auto;
+    }
+    .heart-container {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 0; /* Ensure hearts are behind video player */
+    }
+    .heart {
+        position: absolute;
+        top: 0;
+        left: 0;
+        animation: floatHeart linear infinite;
+        pointer-events: none; /* Prevents the heart from interfering with mouse events */
+        font-size: 24px; /* Adjust the size of the heart emoji */
+    }
+    
+    @keyframes floatHeart {
+        0% {
+            transform: translate(0, 0) rotate(0deg);
+        }
+        100% {
+            transform: translate(calc(100vw - 1em), calc(100vh - 1em)) rotate(360deg);
+        }
+    }
+</style>
+</head>
+<body>
+
+<div id="video-container">
+    <video id="video-player" autoplay loop>
+        <source src="video.mp4" type="video/mp4">
+        <!-- Add other video formats as needed -->
+        Your browser does not support the video tag.
+    </video>
+</div>
+
+<!-- Container for floating hearts -->
+<div class="heart-container"></div>
+
+<!-- JavaScript to create multiple heart emojis -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Number of hearts to create
+    var numHearts = 1000;
+
+    // Get the heart container element
+    var heartContainer = document.querySelector('.heart-container');
+
+    // Function to generate random number within a range
+    function randomRange(min, max) {
+        return Math.random() * (max - min) + min;
+    }
+
+    // Create hearts
+    for (var i = 0; i < numHearts; i++) {
+        // Create heart element
+        var heart = document.createElement('div');
+        heart.className = 'heart';
+        
+        
+        // Set class for alternating colors
+                if (i % 2 === 0) {
+                    heart.innerHTML = '❤️'; // Heart emoji
+                } else {
+                    heart.innerHTML = '🤍'; // Heart emoji
+                }
+        
+        // Randomize starting position
+        var startX = randomRange(0, window.innerWidth);
+        var startY = randomRange(0, window.innerHeight);
+        heart.style.left = startX + 'px';
+        heart.style.top = startY + 'px';
+        
+        // Append heart to container
+        heartContainer.appendChild(heart);
+
+        // Animate heart
+        animateHeart(heart);
+    }
+
+    // Function to animate heart
+    function animateHeart(heart) {
+        var animationDuration = randomRange(3, 10); // Random duration between 3s to 10s
+        var endX = randomRange(0, window.innerWidth);
+        var endY = randomRange(0, window.innerHeight);
+
+        // Animate to random end position
+        heart.animate([
+            { transform: `translate(${heart.style.left}, ${heart.style.top})` },
+            { transform: `translate(${endX}px, ${endY}px)` }
+        ], {
+            duration: animationDuration * 1000, // Convert to milliseconds
+            iterations: Infinity,
+            direction: 'alternate',
+            easing: 'ease-in-out'
+        });
+    }
+});
+</script>
+
+</body>
+</html>
